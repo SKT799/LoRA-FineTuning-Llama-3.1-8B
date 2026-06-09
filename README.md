@@ -36,6 +36,7 @@ Hand an LLM the right documents and it'll *still* cite the wrong one. Or invent 
 So getting the format right is the easy half. The hard half is honesty. This project fine-tunes Llama-3.1-8B in two passes to chase both, and then leans on a separate NLI judge to say whether the second pass actually landed.
 
 =>What SFT will solve? : It will teach model how to cite 'just the format'[SFT is about format]
+
 =>What DPO will solve? : Teaching the model how to cite 'correctly'[DPO is about correctness]
 
 ```
