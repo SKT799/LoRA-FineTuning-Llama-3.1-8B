@@ -21,7 +21,6 @@ The model writes inline `[n]` citations after fine-tuning. An NLI attribution sy
 ![PEFT](https://img.shields.io/badge/PEFT-LoRA-FFD21E?style=flat-square)
 ![TRL](https://img.shields.io/badge/TRL-SFT_·_DPO-FFD21E?style=flat-square)
 ![NLI](https://img.shields.io/badge/DeBERTa--v3-NLI_Judge-7C3AED?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
 
 </div>
 
