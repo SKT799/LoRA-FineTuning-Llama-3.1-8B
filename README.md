@@ -135,29 +135,7 @@ So: citation F1 roughly doubled. I'm reporting all three rows on purpose — pre
 ```
 My derived eval set contains only 16 queries and 16 queries is small eval set. The numbers (precision 0.075→0.142, F1 0.070→0.162) are a real, controlled signal — same retrieval, same NLI judge, only the adapter changes — but they're directional, not a statistically robust benchmark.This can be fixed by using larger eval dataset. But for project purspose I kept it small. 
 ```
----
 
-## Run it yourself
-
-```bash
-# 0. HuggingFace token in Colab Secrets as HF_TOKEN; you'll want an A100 to train.
-
-# Build the data
-python -m training.data.normalize          # HAGRID + WebGLM-QA -> SFT/test
-python -m training.data.build_dpo_pairs    # the chosen/rejected pairs
-
-# Fine-tune  (LoRA · bf16 · bs 1 · grad-accum 8 · 1 epoch · fresh each run)
-python -m training.sft_generator           # Stage 1
-python -m training.dpo_generator           # Stage 2
-python -m training.train_nli_head          # calibrate the judge
-
-# Score raw vs tuned over the entire test set
-python -m eval.harness --dual --queries data/test/sft.jsonl --out docs/eval_results.md
-```
-
-Or skip the command line entirely — open [`run_full_pipeline.ipynb`](colab_pipeline/run_full_pipeline.ipynb) and run sections 2 through 4.
-
----
 
 ## Where the training code lives
 
