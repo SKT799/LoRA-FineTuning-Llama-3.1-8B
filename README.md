@@ -105,7 +105,6 @@ That third one is the interesting case. The answer still *reads* perfectly. DPO 
 | Method | LoRA (PEFT) | only the adapters train and ship — cheap to store, cheap to swap |
 | Precision | `bfloat16` | stable, and the A100 has room without QLoRA |
 | Batch size | `1` | what fits the 8B base on one GPU before it OOMs |
-| Grad accumulation | `8` | gets an effective batch of 8 while staying in memory |
 | Epochs | `1` each | more was worse — see the note below |
 | Loss masking | response-only | grade the answer, never the prompt |
 | Checkpointing | fresh every run | no stale `checkpoint-*`; it saves the final adapter and nothing else |
