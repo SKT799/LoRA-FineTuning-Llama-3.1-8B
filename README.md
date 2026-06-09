@@ -4,7 +4,7 @@
 
 <br/>
 
-### Getting an open 8B model to cite its sources honestly — LoRA, SFT, then DPO — and actually measuring whether it worked.
+### Getting an open 8B model to cite its sources honestly(no blind citations, cite faithfully) — LoRA, SFT, then DPO — and actually measuring whether it worked.
 
 The model writes inline `[n]` citations after fine-tuning. An NLI attribution system then checks those citations, so "did it improve?" gets a number instead of a vibe.
 
@@ -34,6 +34,9 @@ The model writes inline `[n]` citations after fine-tuning. An NLI attribution sy
 Hand an LLM the right documents and it'll *still* cite the wrong one. Or invent a `[4]` that points at nothing. Under any uncertainty, a base model reaches for whatever looks plausible — and a citation in the right format looks plausible whether or not it's true.
 
 So getting the format right is the easy half. The hard half is honesty. This project fine-tunes Llama-3.1-8B in two passes to chase both, and then leans on a separate NLI judge to say whether the second pass actually landed.
+
+=>What SFT will solve? : It will teach model how to cite 'just the format'[SFT is about format]
+=>What DPO will solve? : Teaching the model how to cite 'correctly'[DPO is about correctness]
 
 ```
    Base Llama-3.1-8B          after SFT                after DPO
