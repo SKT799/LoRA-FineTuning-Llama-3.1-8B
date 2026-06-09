@@ -75,7 +75,7 @@ flowchart LR
     class EVAL eval;
 ```
 
-**Stage 1, SFT — learn the shape.** Give the model a question and a set of numbered sources, ask for an answer with inline `[n]` citations. Standard TRL `SFTTrainer`, LoRA adapters through PEFT, with response-only loss masking so it's graded on the answer it writes and never on the prompt it was handed.
+**Stage 1, SFT — learn the shape or format.** Give the model a question and a set of numbered sources, ask for an answer with inline `[n]` citations. Standard TRL `SFTTrainer`, LoRA adapters through PEFT, with response-only loss masking so it's graded on the answer it writes and never on the prompt it was handed.
 
 **Stage 2, DPO — learn to be honest.** Show it two versions of the same answer and let it learn which one it should prefer. The good one (`chosen`) is the gold, correctly-cited answer. The bad one (`rejected`) is that same answer, deliberately broken. Concretely, the corruptions in [`build_dpo_pairs.py`](colab_pipeline/training/data/build_dpo_pairs.py) do one of three things:
 
@@ -93,12 +93,12 @@ That third one is the interesting case. The answer still *reads* perfectly. DPO 
 |---|---|---|
 | SFT | `HAGRID` + `WebGLM-QA` | both ship gold answers with inline citations — the exact target |
 | DPO | pairs built from the SFT gold | `chosen` is faithful, `rejected` is corrupted (swap / drop / noun) |
-| NLI head | `WICE` · `nli_fever` · `ANLI` · `VitaminC` | calibrates the entailment judge used downstream |
+| NLI head | `WICE` · `nli_fever` · `ANLI` · `VitaminC` | making a robust judge for entailment |
 
 
 ---
 
-## Training setup, and why each choice
+## Training setup and why each choice:
 
 | Knob | Value | The reason |
 |---|---|---|
@@ -108,12 +108,6 @@ That third one is the interesting case. The answer still *reads* perfectly. DPO 
 | Epochs | `1` each | more was worse — see the note below |
 | Loss masking | response-only | grade the answer, never the prompt |
 | Checkpointing | fresh every run | no stale `checkpoint-*`; it saves the final adapter and nothing else |
-
-A couple of things that bit me, since they're the honest part of the story:
-
-The first SFT run overfit — eval loss climbed run over run (0.49 to 0.53 to 0.67) while train loss kept dropping. Cutting to a single epoch pulled eval back in line with train. Same fix calmed down a DPO margin that was drifting toward 7.
-
-And the NLI calibration temperature blew up to about 7, which saturated *every* citation red — raw and tuned alike — so the whole A/B read as a flat zero and looked like fine-tuning did nothing. Clamping `T` to `[0.5, 3.0]` is what unstuck it. Only after that fix did the real difference show up.
 
 ---
 
@@ -137,6 +131,11 @@ Citation F1          raw  ###.................  0.070
 
 So: citation F1 roughly doubled. I'm reporting all three rows on purpose — precision, recall, F1 — instead of fishing out the one number that flatters the run. The gains are modest in absolute terms and the NLI judge is strict by design, but they're consistent across the whole split, which is the part that counts.
 
+# Limitation Of the evaluation:
+```
+The honest caveat
+16-20 queries is a small eval set. The numbers (precision 0.075→0.142, F1 0.070→0.162) are a real, controlled signal — same retrieval, same NLI judge, only the adapter changes — but they're directional, not a statistically robust benchmark.
+```
 ---
 
 ## Run it yourself
