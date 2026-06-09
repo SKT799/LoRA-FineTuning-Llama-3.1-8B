@@ -12,7 +12,6 @@ The model writes inline `[n]` citations after fine-tuning. An NLI attribution sy
 
 [![Watch Demo Video](https://img.shields.io/badge/Watch-Demo_Video-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](<DEMO_VIDEO_URL>)
 &nbsp;
-[![View Source Code](https://img.shields.io/badge/View-Source_Code-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SKT799/LoRA-FineTuning-Llama-3.1-8B)
 
 <br/>
 
