@@ -95,7 +95,6 @@ That third one is the interesting case. The answer still *reads* perfectly. DPO 
 | DPO | pairs built from the SFT gold | `chosen` is faithful, `rejected` is corrupted (swap / drop / noun) |
 | NLI head | `WICE` · `nli_fever` · `ANLI` · `VitaminC` | calibrates the entailment judge used downstream |
 
-Two datasets got cut on purpose: ALCE and ExpertQA. Their gold answers carry no inline `[n]` at all — so training on them would quietly teach the model to *stop* citing, which is the opposite of the point.
 
 ---
 
