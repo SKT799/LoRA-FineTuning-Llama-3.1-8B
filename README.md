@@ -133,8 +133,7 @@ So: citation F1 roughly doubled. I'm reporting all three rows on purpose — pre
 
 # Limitation Of the evaluation:
 ```
-The honest caveat
-16-20 queries is a small eval set. The numbers (precision 0.075→0.142, F1 0.070→0.162) are a real, controlled signal — same retrieval, same NLI judge, only the adapter changes — but they're directional, not a statistically robust benchmark.
+My derived eval set contains only 16 queries and 16 queries is small eval set. The numbers (precision 0.075→0.142, F1 0.070→0.162) are a real, controlled signal — same retrieval, same NLI judge, only the adapter changes — but they're directional, not a statistically robust benchmark.
 ```
 ---
 
